@@ -1,0 +1,15 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:15.4-alpine3.18
+    container_name: nestjs-clean-postgres
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: nestjs-clean
+      PG_DATA: /data/postgres
+    volumes:
+      - ./data/postgres:/data/postgres
