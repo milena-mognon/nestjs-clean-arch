@@ -1,15 +1,19 @@
 version: '3.9'
 
+networks:
+  nestjs-clean:
+    name: nestjs-clean
+    driver: bridge
+
 services:
   postgres:
     image: postgres:15.4-alpine3.18
     container_name: nestjs-clean-postgres
     ports:
       - 5433:5432
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: docker
-      POSTGRES_DB: nestjs-clean
-      PG_DATA: /data/postgres
+    env_file:
+      - ./.env
     volumes:
-      - ./data/postgres:/data/postgres
+      - ./data/postgres:/var/lib/postgresql/data
+    networks:
+      - nestjs-clean
