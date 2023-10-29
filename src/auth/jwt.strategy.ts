@@ -5,11 +5,11 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ENV } from 'src/env';
 import { z } from 'zod';
 
-const tokenSchema = z.object({
+const tokenPayloadSchema = z.object({
   sub: z.string().uuid(),
 });
 
-type TokenSchema = z.infer<typeof tokenSchema>;
+export type UserPayload = z.infer<typeof tokenPayloadSchema>;
 
 @Injectable() // todo provider precisa ter a annotation Injectable
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -23,7 +23,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   // mesmo o token sendo validado pela key, se não tiver as propriedades obrigatórias não passa na validação
-  async validate(payload: TokenSchema) {
-    return tokenSchema.parse(payload);
+  async validate(payload: UserPayload) {
+    return tokenPayloadSchema.parse(payload);
   }
 }
